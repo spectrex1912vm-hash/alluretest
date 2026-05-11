@@ -29,6 +29,7 @@ test {
     useJUnitPlatform()
     systemProperty "allure.results.directory", "build/allure-results"
     jvmArgs "-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains("aspectjweaver") }}"
+    systemProperties(System.getProperties())
 
 }
 
