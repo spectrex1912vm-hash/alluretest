@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+}
+
+group = 'guru.qa'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation platform('io.qameta.allure:allure-bom:2.25.0')
+
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'com.codeborne:selenide:7.2.3'
+
+    testImplementation 'io.qameta.allure:allure-selenide'
+    testImplementation 'io.qameta.allure:allure-junit5'
+    testImplementation "org.aspectj:aspectjweaver:1.9.24"
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+
+test {
+    useJUnitPlatform()
+    systemProperty "allure.results.directory", "build/allure-results"
+    jvmArgs "-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains("aspectjweaver") }}"
+
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test) {
+    systemProperty "file.encoding", "UTF-8"
+}
